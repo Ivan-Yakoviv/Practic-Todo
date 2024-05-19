@@ -29,7 +29,7 @@ form.addEventListener("submit",(event) => {
 
 
 function generateList(text, id) {
-    const markUP = `<li id=${id}>${text}<button type="button">X</button></li>`
+    const markUP = `<li id=${id}>${text}<button type="button" class="close-btn">X</button></li>`
     taskList.insertAdjacentHTML("beforeend", markUP);
 }
 
@@ -53,8 +53,16 @@ function addTask(text) {
 
 function onRender() {
     const data = JSON.parse(localStorage.getItem("tasks"));
-    console.log(data);
-    const startMarkUp = data.map(item => `<li id="${item.id}">${item.text}<button type="button">X</button></li>`).join("");
+    if (!data) return;
+    const startMarkUp = data.map(item => `<li id="${item.id}">${item.text}<button type="button" class="close-btn">X</button></li>`).join("");
     taskList.insertAdjacentHTML("beforeend", startMarkUp)
 }
 
+
+taskList.addEventListener("click", (event) => {
+    if (!(event.target.classList.contains("close-btn"))) return;
+    const storageArr = JSON.parse(localStorage.getItem("tasks"));
+    const reducedArr = storageArr.filter(item => item.id !== event.target.parentNode.id);
+    localStorage.setItem("tasks", JSON.stringify(reducedArr));
+    event.target.parentNode.remove();
+})
