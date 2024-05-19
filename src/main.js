@@ -11,15 +11,13 @@ import { nanoid } from 'nanoid'
 const form = document.querySelector("#task-form");
 const taskList = document.querySelector("#task-list");
 
+onRender();
+
 form.addEventListener("submit",(event) => {
     event.preventDefault();
     const value = event.target.elements.taskName.value.trim();
-    if (value === "") {
-return;
-    }
-    generateList(value);
+    if (!value) return;
     addTask(value);
-    console.dir(event.target.elements.taskName.value);
 }); 
 
 
@@ -30,8 +28,8 @@ return;
 
 
 
-function generateList(text) {
-    const markUP = `<li>${text}<button type="button">X</button></li>`
+function generateList(text, id) {
+    const markUP = `<li id=${id}>${text}<button type="button">X</button></li>`
     taskList.insertAdjacentHTML("beforeend", markUP);
 }
 
@@ -46,13 +44,17 @@ function addTask(text) {
         id,
         text
     };
-
+    generateList(text, id);
     const taskArr = JSON.parse(localStorage.getItem("tasks")) || [];
     taskArr.push(formData);
 
-console.log(formData);
-   
     localStorage.setItem("tasks", JSON.stringify(taskArr));
 }
 
-// console.log(JSON.parse(localStorage.getItem("tasks")) || []);
+function onRender() {
+    const data = JSON.parse(localStorage.getItem("tasks"));
+    console.log(data);
+    const startMarkUp = data.map(item => `<li id="${item.id}">${item.text}<button type="button">X</button></li>`).join("");
+    taskList.insertAdjacentHTML("beforeend", startMarkUp)
+}
+
