@@ -1,3 +1,5 @@
+import { nanoid } from 'nanoid'
+
 //TODO-1
 
 // Напишіть логіку обробнику подій по сабміту
@@ -16,6 +18,7 @@ form.addEventListener("submit",(event) => {
 return;
     }
     generateList(value);
+    addTask(value);
     console.dir(event.target.elements.taskName.value);
 }); 
 
@@ -32,3 +35,24 @@ function generateList(text) {
     taskList.insertAdjacentHTML("beforeend", markUP);
 }
 
+//TODO-3
+// Написати функцію яка буде зберігати данні в сховище вигляді об'єкта { id: value, text: value}
+
+
+
+function addTask(text) {
+    const id = nanoid();
+    const formData = {
+        id,
+        text
+    };
+
+    const taskArr = JSON.parse(localStorage.getItem("tasks")) || [];
+    taskArr.push(formData);
+
+console.log(formData);
+   
+    localStorage.setItem("tasks", JSON.stringify(taskArr));
+}
+
+// console.log(JSON.parse(localStorage.getItem("tasks")) || []);
