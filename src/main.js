@@ -1,17 +1,11 @@
-import { nanoid } from 'nanoid'
+import { KEY } from './js/constance';
+import { onRender } from './js/pagerender';
+import { form, taskList } from './js/reference';
+import { listRemover } from './js/listedition';
+import { addTask } from './js/addtask';
 
-//TODO-1
-
-// Напишіть логіку обробнику подій по сабміту
-
-// При сабміті треба у змінну записувати значення поля інпута
-
-// Повинна бути перевірка на порожнє поле
-
-const form = document.querySelector("#task-form");
-const taskList = document.querySelector("#task-list");
-
-onRender();
+onRender(taskList);
+listRemover(taskList, KEY);
 
 form.addEventListener("submit",(event) => {
     event.preventDefault();
@@ -19,50 +13,3 @@ form.addEventListener("submit",(event) => {
     if (!value) return;
     addTask(value);
 }); 
-
-
-
-//TODO-2
-// Напишіть логіку яка з сабміта буде брати значення поля інпут
-// Генерувати елемент списку LI  з текстом і кнопкою Х, у майбутньому це буде кнопка видалення таски
-
-
-
-function generateList(text, id) {
-    const markUP = `<li id=${id}>${text}<button type="button" class="close-btn">X</button></li>`
-    taskList.insertAdjacentHTML("beforeend", markUP);
-}
-
-//TODO-3
-// Написати функцію яка буде зберігати данні в сховище вигляді об'єкта { id: value, text: value}
-
-
-
-function addTask(text) {
-    const id = nanoid();
-    const formData = {
-        id,
-        text
-    };
-    generateList(text, id);
-    const taskArr = JSON.parse(localStorage.getItem("tasks")) || [];
-    taskArr.push(formData);
-
-    localStorage.setItem("tasks", JSON.stringify(taskArr));
-}
-
-function onRender() {
-    const data = JSON.parse(localStorage.getItem("tasks"));
-    if (!data) return;
-    const startMarkUp = data.map(item => `<li id="${item.id}">${item.text}<button type="button" class="close-btn">X</button></li>`).join("");
-    taskList.insertAdjacentHTML("beforeend", startMarkUp)
-}
-
-
-taskList.addEventListener("click", (event) => {
-    if (!(event.target.classList.contains("close-btn"))) return;
-    const storageArr = JSON.parse(localStorage.getItem("tasks"));
-    const reducedArr = storageArr.filter(item => item.id !== event.target.parentNode.id);
-    localStorage.setItem("tasks", JSON.stringify(reducedArr));
-    event.target.parentNode.remove();
-})
