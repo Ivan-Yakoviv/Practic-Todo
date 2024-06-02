@@ -1,2 +1,2 @@
-import{o as e,l as i,a,K as t}from"./assets/listedition-cf3eb501.js";import{S as r,E as s,P as n,N as o}from"./assets/vendor-1ebc4495.js";new r(".swiper",{effect:"flip",grabCursor:!0,pagination:{el:".swiper-pagination"},navigation:{nextEl:".swiper-button-next",prevEl:".swiper-button-prev"},modules:[s,n,o]});e(a);i(a,t);
+import"./assets/modulepreload-polyfill-3cfb730f.js";import{o as i,l as e,a,K as t}from"./assets/listedition-c3fccbf4.js";import{S as r,E as o,P as s,N as n}from"./assets/vendor-1ebc4495.js";new r(".swiper",{effect:"flip",grabCursor:!0,pagination:{el:".swiper-pagination"},navigation:{nextEl:".swiper-button-next",prevEl:".swiper-button-prev"},modules:[o,s,n]});i(a);e(a,t);
 //# sourceMappingURL=commonHelpers2.js.map
